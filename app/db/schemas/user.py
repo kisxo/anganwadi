@@ -4,7 +4,8 @@ from typing_extensions import Self
 
 class UserRole(enum.Enum):
     admin = "Admin"
-    staff = "Staff"
+    supervisor = "Supervisor"
+    anganwadi = "Anganwadi"
     # member = "Member"
     def __str__(self) -> str:
         return self.value
