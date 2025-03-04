@@ -10,8 +10,8 @@ logger = logging.getLogger('uvicorn.error')
 def startup():
     logger.info("\n")
     logger.info("Start up check for Fastapi Gym Management\n")
-    # check_db_connection()
-    # init_database_models()
+    check_db_connection()
+    init_database_models()
 
 def check_db_connection():
     logger.info("Starting Database")
