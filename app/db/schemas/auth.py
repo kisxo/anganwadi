@@ -5,6 +5,6 @@ class Token(BaseModel):
     access_token: str = "JWT-token"
     token_type: str = "bearer"
 
-class LoginForm(BaseModel):
-    username: str = "username"
-    password: str = "password"
+class StaffLoginForm(BaseModel):
+    phone: str = "phone"
+    mpin: str = "mpin"
