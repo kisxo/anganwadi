@@ -8,3 +8,7 @@ class Token(BaseModel):
 class StaffLoginForm(BaseModel):
     phone: str = "phone"
     mpin: str = "mpin"
+
+class OfficerLoginForm(BaseModel):
+    email: str = "email"
+    password: str = "password"
