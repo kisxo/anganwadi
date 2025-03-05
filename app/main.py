@@ -3,6 +3,7 @@ from app.core.security import authx_security
 from app.startup import startup
 from app.api import api_router
 from app.openapi_docs import doc
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(
     title=doc.title,
@@ -14,6 +15,15 @@ app = FastAPI(
         {"url": "/api", "description": "Default api URL Route"},
     ],
     root_path="/api",
+)
+
+origins = ['*']
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 authx_security.handle_errors(app)
