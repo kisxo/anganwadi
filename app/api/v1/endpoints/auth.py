@@ -98,7 +98,7 @@ async def admin_login(
     token_data = {
         'user_type': 'admin',
         'user_id' : admin_in_db.admin_id,
-        'user_role' : 'admin'
+        'user_role' : 'Admin'
     }
 
     token = authx_security.create_access_token(uid=str(admin_in_db.admin_id), data=token_data)
