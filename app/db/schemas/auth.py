@@ -12,3 +12,7 @@ class StaffLoginForm(BaseModel):
 class OfficerLoginForm(BaseModel):
     email: str = "email"
     password: str = "password"
+
+class AdminLoginForm(BaseModel):
+    email: str = "email"
+    password: str = "password"
