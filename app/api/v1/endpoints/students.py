@@ -71,3 +71,15 @@ async def list_students(
         center_id = current_user.staff_center_id
         result = student_service.list_students_by_center(center_id=center_id, session=session)
         return {'data': result}
+
+@router.get("/{student_id}",
+    dependencies=[Depends(authx_security.access_token_required), Depends(auth_scheme)]
+)
+async def get_student(
+    student_id: int,
+    session: SessionDep
+):
+    # TODO Check user permission
+
+    result = student_service.get_student(student_id=student_id, session=session)
+    return result
