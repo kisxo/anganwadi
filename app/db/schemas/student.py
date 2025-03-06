@@ -1,6 +1,8 @@
 import enum
 from pydantic import BaseModel, Field
 from pydantic.types import date
+from typing import Annotated
+from fastapi import UploadFile, File
 
 class StudentGender(enum.Enum):
     male = "Male"
@@ -19,7 +21,8 @@ class StudentBase(BaseModel):
     student_center_id: int | None = Field(default=None)
 
 class Student(StudentBase):
+    student_image: str
     student_center_id: int
 
 class StudentCreate(StudentBase):
-    pass
+    student_image_file: Annotated[UploadFile, File()]
