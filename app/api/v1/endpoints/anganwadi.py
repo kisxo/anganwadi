@@ -3,7 +3,7 @@ from app.db.session import SessionDep
 from app.core.security import authx_security, auth_scheme
 from authx import TokenPayload
 from app.db.schemas.anganwadi import AnganwadiCreate
-from app.db.models.anganwadi import AnganwadiCenters
+from app.db.models.anganwadi_model import AnganwadiCenters
 from app.services import admin_service, officer_service
 
 router = APIRouter()

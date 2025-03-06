@@ -1,9 +1,9 @@
 from fastapi import APIRouter, HTTPException
 from app.core.security import authx_security
 from app.db.session import SessionDep
-from app.db.models.staff import Staff
-from app.db.models.officer import Officer
-from app.db.models.admin import Admin
+from app.db.models.staff_model import Staff
+from app.db.models.officer_model import Officer
+from app.db.models.admin_model import Admin
 from app.db.schemas.auth import Token, StaffLoginForm, OfficerLoginForm, AdminLoginForm
 from app.core.security import verify_password
 from sqlalchemy import select
