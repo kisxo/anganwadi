@@ -5,7 +5,7 @@ from app.core.security import authx_security, auth_scheme
 from authx import TokenPayload
 from app.db.schemas.student import StudentCreate, Student
 from app.db.models import student_model
-from app.services import staff_service, admin_service
+from app.services import staff_service, admin_service, student_service
 from uuid import uuid4
 import datetime
 from app.services.face_id import generate_face_id
@@ -58,3 +58,16 @@ async def create_student(
         raise HTTPException(status_code=400, detail="Something went wrong!")
 
     return new_student
+
+@router.get("/",
+    dependencies=[Depends(authx_security.access_token_required), Depends(auth_scheme)]
+)
+async def list_students(
+    session: SessionDep,
+    payload: TokenPayload = Depends(authx_security.access_token_required)
+):
+    if payload.user_type == "staff":
+        current_user = staff_service.get_staff(payload.user_id, session)
+        center_id = current_user.staff_center_id
+        result = student_service.list_students_by_center(center_id=center_id, session=session)
+        return {'data': result}
