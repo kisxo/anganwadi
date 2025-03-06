@@ -1,5 +1,5 @@
 from app.db.database import Base
-from sqlalchemy import String, Enum as SqlEnum, DATE, TIMESTAMP, ForeignKey, func
+from sqlalchemy import String, Enum as SqlEnum, DATE, TIMESTAMP, ForeignKey, func, JSON, Boolean
 from sqlalchemy.orm import Mapped, mapped_column
 from typing import Optional
 from app.db.schemas.student import StudentGender
@@ -15,4 +15,7 @@ class Student(Base):
     student_father_name: Mapped[str] = mapped_column(String(30))
     student_phone: Mapped[str] = mapped_column(String(10))
     student_created_date: Mapped[TIMESTAMP] = mapped_column(TIMESTAMP(timezone=True), server_default=func.now())
+    student_image: Mapped[str] = mapped_column(String())
+    student_face_id: Mapped[Optional[JSON]] = mapped_column(JSON())
+    student_face_id_status: Mapped[Boolean] = mapped_column(Boolean, default=False)
     student_center_id: Mapped[int] = mapped_column(ForeignKey("anganwadi_centers.center_id"))
