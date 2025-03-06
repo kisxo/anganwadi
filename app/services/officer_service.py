@@ -1,4 +1,4 @@
-from app.db.models.officer import Officer
+from app.db.models.officer_model import Officer
 from app.db.session import SessionDep
 from fastapi import HTTPException
 

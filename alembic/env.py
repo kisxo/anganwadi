@@ -23,7 +23,7 @@ if config.config_file_name is not None:
 # target_metadata = mymodel.Base.metadata
 
 # Import your Models here in order for them to be visible
-from app.db.models import admin_modal, anganwadi, officer, staff, student_model
+from app.db.models import admin_model, anganwadi_model, officer_model, staff_model, student_model
 
 target_metadata = [Base.metadata]
 

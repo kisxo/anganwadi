@@ -1,4 +1,4 @@
-from app.db.models.admin import Admin
+from app.db.models.admin_model import Admin
 from app.db.session import SessionDep
 from fastapi import HTTPException
 

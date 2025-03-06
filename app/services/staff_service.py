@@ -1,4 +1,4 @@
-from app.db.models.staff import Staff
+from app.db.models.staff_model import Staff
 from app.db.session import SessionDep
 from fastapi import HTTPException
 
