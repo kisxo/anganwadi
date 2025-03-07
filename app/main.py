@@ -17,9 +17,14 @@ app = FastAPI(
     root_path="/api",
 )
 
-origins = ['*']
+origins = [
+    "http://magicminute.online",
+    "https://magicminute.online"
+]
 app.add_middleware(
     CORSMiddleware,
+    # this regex allows request from both http and https and any port
+    allow_origin_regex = "^(http|https)://localhost(:([0-9]|[1-9][0-9]{1,4}))?$",
     allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
