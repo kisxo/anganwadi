@@ -1,6 +1,6 @@
 import enum
 from pydantic import BaseModel, Field
-from pydantic.types import date
+from pydantic.types import date, Base64Str
 from typing import Annotated
 from fastapi import UploadFile, File
 from pydantic.types import Json
@@ -28,4 +28,5 @@ class Student(StudentBase):
     student_face_id_status: bool = Field(default=False)
 
 class StudentCreate(StudentBase):
-    student_image_file: Annotated[UploadFile, File()]
+    student_image_file: Base64Str
+    ...
