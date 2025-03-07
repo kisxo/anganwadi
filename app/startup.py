@@ -2,7 +2,7 @@ import logging
 from app.db.database import engine, create_db_and_tables
 from sqlalchemy import text
 import os
-# from app.db.models import anganwadi, officer, staff, student
+from app.db.models import admin_model, anganwadi_model, officer_model, staff_model, student_model
 logger = logging.getLogger('uvicorn.error')
 
 # Function to run during server start up.
@@ -12,7 +12,7 @@ def startup():
     logger.info("\n")
     logger.info("Start up check for Fastapi Gym Management\n")
     check_db_connection()
-    # init_database_models()
+    init_database_models()
     create_media_folders()
 
 def check_db_connection():
