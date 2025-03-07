@@ -10,6 +10,7 @@ from uuid import uuid4
 import datetime
 from app.services.face_id import generate_face_id
 from app.db.schemas.face_id import FaceID
+import base64
 
 router = APIRouter()
 
@@ -21,6 +22,7 @@ async def create_student(
     session: SessionDep,
     payload: TokenPayload = Depends(authx_security.access_token_required)
 ):
+    
     if payload.user_type == "staff":
         current_user = staff_service.get_staff(payload.user_id, session)
         input_data.student_center_id = current_user.staff_center_id
@@ -34,7 +36,7 @@ async def create_student(
         unique_image_id = f"{input_data.student_center_id}-{uuid4()}"
 
         with open(f"media/images/students/{unique_image_id}", "bw") as image_file:
-            contents = await input_data.student_image_file.read()
+            contents = base64.b64decode(input_data.student_image_file)
             image_file.write(contents)
 
         face_id : FaceID = generate_face_id(image_group="students", image_id=unique_image_id)

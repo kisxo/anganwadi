@@ -28,5 +28,4 @@ class Student(StudentBase):
     student_face_id_status: bool = Field(default=False)
 
 class StudentCreate(StudentBase):
-    student_image_file: Base64Str
-    ...
+    student_image_file: str
