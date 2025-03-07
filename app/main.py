@@ -19,12 +19,14 @@ app = FastAPI(
 
 origins = [
     "http://magicminute.online",
-    "https://magicminute.online"
+    "https://magicminute.online",
+    "http://localhost:8081",
+    "https://localhost:8081",
 ]
 app.add_middleware(
     CORSMiddleware,
     # this regex allows request from both http and https and any port
-    allow_origin_regex = "^(http|https)://localhost(:([0-9]|[1-9][0-9]{1,4}))?$",
+    # allow_origin_regex = "^(http|https)://localhost(:([0-9]|[1-9][0-9]{1,4}))?$",
     allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
