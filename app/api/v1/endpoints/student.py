@@ -3,7 +3,7 @@ from typing import Annotated
 from app.db.session import SessionDep
 from app.core.security import authx_security, auth_scheme
 from authx import TokenPayload
-from app.db.schemas.student import StudentCreate, Student, StudentBase, StudentPublic, StudentsPublic
+from app.db.schemas import student
 from app.db.models import student_model
 from app.services import staff_service, admin_service, student_service, anganwadi_service
 from uuid import uuid4
@@ -16,11 +16,11 @@ from app.services.image import save_image
 router = APIRouter()
 
 @router.post("/",
-    response_model=StudentPublic,
+    response_model=student.StudentPublic,
     dependencies=[Depends(authx_security.access_token_required), Depends(auth_scheme)]
 )
 async def create_student(
-    input_data: StudentCreate,
+    input_data: student.StudentCreate,
     session: SessionDep,
     payload: TokenPayload = Depends(authx_security.access_token_required)
 ):
@@ -38,7 +38,7 @@ async def create_student(
     face_id: FaceID = generate_face_id(image_group="students", image_id=input_data.student_image)
     try:
 
-        validated_student = Student(
+        validated_student = student.Student(
             **input_data.model_dump(),
             student_face_id=face_id.model_dump_json(),
         )
@@ -56,7 +56,7 @@ async def create_student(
 
 
 @router.get("/",
-    response_model=StudentsPublic,
+    response_model=student.StudentsPublic,
     dependencies=[Depends(authx_security.access_token_required), Depends(auth_scheme)]
 )
 async def list_students(
@@ -69,7 +69,7 @@ async def list_students(
 
 
 @router.get("/{student_id}",
-    response_model=StudentPublic,
+    response_model=student.StudentPublic,
     dependencies=[Depends(authx_security.access_token_required), Depends(auth_scheme)]
 )
 async def get_student(
@@ -80,3 +80,39 @@ async def get_student(
 
     result = student_service.get_student(student_id=student_id, session=session)
     return result
+
+
+@router.patch("/{student_id}",
+    response_model=student.StudentPublic,
+    dependencies=[Depends(authx_security.access_token_required), Depends(auth_scheme)]
+)
+async def get_student(
+    student_id: int,
+    input_data: student.StudentUpdate,
+    session: SessionDep
+):
+    student_in_db = None
+    try:
+        student_in_db = session.get(student_model.Student, student_id)
+    except Exception as e:
+        print(e)
+
+    if not student_in_db:
+        raise HTTPException(status_code=404, detail="Student not found!")
+
+    try:
+        student_in_db.student_full_name = input_data.student_full_name
+        student_in_db.student_dob = input_data.student_dob
+        student_in_db.student_gender = input_data.student_gender
+        student_in_db.student_mother_name = input_data.student_mother_name
+        student_in_db.student_father_name = input_data.student_father_name
+        student_in_db.student_phone = input_data.student_phone
+        student_in_db.student_aadhar = input_data.student_aadhar
+
+        session.commit()
+        session.refresh(student_in_db)
+    except Exception as e:
+        print(e)
+        raise HTTPException(status_code=400, detail="Invalid input!")
+
+    return student_in_db

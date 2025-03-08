@@ -19,7 +19,7 @@ class StudentBase(BaseModel):
     student_mother_name: str =  Field(min_length=5, max_length=30)
     student_father_name: str =  Field(min_length=5, max_length=30)
     student_phone: str = Field(max_length=10)
-    student_aadhar: Optional[str] = Field(min_length=12, max_length=12, default=None)
+    student_aadhar: str = Field(min_length=12, max_length=12)
     student_center_id: int
     student_image: str
 
@@ -36,3 +36,12 @@ class Student(StudentBase):
 
 class StudentCreate(StudentBase):
     pass
+
+class StudentUpdate(BaseModel):
+    student_full_name: str = Field(min_length=5, max_length=30)
+    student_dob: date
+    student_gender: StudentGender
+    student_mother_name: str =  Field(min_length=5, max_length=30)
+    student_father_name: str =  Field(min_length=5, max_length=30)
+    student_phone: str = Field(max_length=10)
+    student_aadhar: str = Field(min_length=12, max_length=12)
