@@ -17,7 +17,7 @@ def generate_face_id(image_group: str, image_id: str) -> FaceID:
     try:
         known_faces = face_recognition.face_encodings(face_image=known_image, num_jitters=50, model='large')[0]
     except Exception as e:
-        raise HTTPException(status_code=404, detail="Officer not found!")
+        raise HTTPException(status_code=404, detail="Face not detected!")
 
     return FaceID(face_signature=known_faces)
 
