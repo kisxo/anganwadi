@@ -13,21 +13,25 @@ class StaffRole(enum.Enum):
         return self.value
 
 class StaffBase(BaseModel):
-    staff_full_name: str
-    staff_phone: str
-    staff_aadhar: str
+    staff_full_name: str =  Field(min_length=5, max_length=30)
+    staff_phone: str = Field(min_length=10, max_length=10)
+    staff_aadhar: str = Field(min_length=12, max_length=12)
     staff_role: StaffRole
     staff_center_id: int
 
 class StaffPublic(StaffBase):
     staff_id: int
     staff_created_date: datetime
+    staff_image: str
+    staff_face_id: object
+
+class StaffsPublic(BaseModel):
+    data: list[StaffPublic]
 
 class Staff(StaffBase):
     staff_hashed_mpin: str
     staff_image: str
-    staff_face_id: Json | None = Field(default=None)
-    staff_face_id_status: bool = Field(default=False)
+    staff_face_id: Json
 
 class StaffCreate(StaffBase):
     staff_mpin: str = Field(min_length=5, max_length=5)
