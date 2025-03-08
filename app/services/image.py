@@ -12,7 +12,7 @@ def save_image(image_str: str, image_group: str, center_id: int) -> str:
     try:
         # Format: center_id + '-' + uuid
         unique_image_id = f"{center_id}-{uuid4()}"
-        with open(f"media/images/{image_group}/{unique_image_id}.jpg", "bw") as image_file:
+        with open(f"media/images/{image_group}/{unique_image_id}", "bw") as image_file:
             contents = base64.b64decode(image_str)
             image_file.write(contents)
         return unique_image_id
