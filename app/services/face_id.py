@@ -12,8 +12,11 @@ def generate_face_id(image_group: str, image_id: str) -> FaceID:
     image_group = ``students`` or ``staffs``
     Specify whose image to load image file from correct file route
     """
+    try:
+        known_image = face_recognition.load_image_file(f"media/images/{image_group}/{image_id}")
+    except Exception as e:
+        raise HTTPException(status_code=404, detail="Image not found !")
 
-    known_image = face_recognition.load_image_file(f"media/images/{image_group}/{image_id}")
     try:
         known_faces = face_recognition.face_encodings(face_image=known_image, num_jitters=50, model='large')[0]
     except Exception as e:
