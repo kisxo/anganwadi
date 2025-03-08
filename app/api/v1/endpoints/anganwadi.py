@@ -17,7 +17,7 @@ async def create_center(
     payload: TokenPayload = Depends(authx_security.access_token_required)
 ):
     if payload.user_type not in ["admin", "officer"]:
-        raise HTTPException(status_code=403, detail="Forbidden !")
+        raise HTTPException(status_code=403, detail="Does not have permission to create Anganwadi Center!!")
 
     if input_data.center_supervisor_id:
         # check if officer exists
@@ -26,11 +26,16 @@ async def create_center(
     else:
         input_data.center_supervisor_id = None
 
-    validated_center = Anganwadi(**input_data.model_dump())
-
-    new_anganwadi_center = anganwadi_model.AnganwadiCenters(**input_data.model_dump())
+    center_in_db = anganwadi_service.get_anganwadi_by_code(input_data.center_code, session)
+    if center_in_db:
+        raise HTTPException(status_code=400, detail="Anganwadi Center already exists!")
 
     try:
+
+        validated_center = Anganwadi(**input_data.model_dump())
+
+        new_anganwadi_center = anganwadi_model.AnganwadiCenters(**validated_center.model_dump())
+
         session.add(new_anganwadi_center)
         session.commit()
         session.refresh(new_anganwadi_center)

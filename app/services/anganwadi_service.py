@@ -15,6 +15,20 @@ def get_anganwadi(anganwadi_id: int, session: SessionDep):
 
     return anganwadi_id
 
+
+def get_anganwadi_by_code(center_code: str, session: SessionDep):
+    try:
+        statement = select(AnganwadiCenters).where(AnganwadiCenters.center_code == center_code)
+        result =  session.execute(statement).mappings().all()
+        anganwadi_centers = []
+        for row in result:
+            anganwadi_centers.append(row.AnganwadiCenters.__dict__)
+
+        return anganwadi_centers
+    except Exception as e:
+        print(e)
+
+
 def list_anganwadi(session: SessionDep):
     try:
         statement = select(AnganwadiCenters)
