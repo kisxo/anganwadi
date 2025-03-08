@@ -31,3 +31,4 @@ class Staff(StaffBase):
 
 class StaffCreate(StaffBase):
     staff_mpin: str = Field(min_length=5, max_length=5)
+    staff_image_file: str
