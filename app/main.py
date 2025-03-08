@@ -22,6 +22,7 @@ origins = [
     "https://magicminute.online",
     "http://localhost:8081",
     "https://localhost:8081",
+    "*"
 ]
 app.add_middleware(
     CORSMiddleware,
