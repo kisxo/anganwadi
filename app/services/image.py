@@ -8,7 +8,7 @@ def save_image(image_str: str, image_group: str, center_id: int) -> str:
     Specify whose image to save and determine correct file route
     """
     if not image_str:
-        raise HTTPException(status_code=400, detail="Image not found !")
+        raise HTTPException(status_code=400, detail="Image is empty !")
     try:
         # Format: center_id + '-' + uuid
         unique_image_id = f"{center_id}-{uuid4()}"
