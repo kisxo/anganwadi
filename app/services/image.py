@@ -26,7 +26,7 @@ async def save_image(input_file, image_group: str) :
     Specify whose image to save and determine correct file route
     """
     current_time = str(time.time()).replace('.', '-')
-    unique_image_id = f"{uuid4()}-{current_time}"
+    unique_image_id = f"{uuid4()}-{current_time}.jpg"
 
     try:
         with open(f"media/images/{image_group}/{unique_image_id}", "bw") as image_file:
