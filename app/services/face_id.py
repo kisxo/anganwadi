@@ -3,6 +3,7 @@ import face_recognition
 import matplotlib.pyplot as plt
 from app.db.schemas.face_id import FaceID
 import numpy
+from fastapi import HTTPException
 
 from app.db.models import student_model
 
@@ -13,7 +14,10 @@ def generate_face_id(image_group: str, image_id: str) -> FaceID:
     """
 
     known_image = face_recognition.load_image_file(f"media/images/{image_group}/{image_id}")
-    known_faces = face_recognition.face_encodings(face_image=known_image, num_jitters=50, model='large')[0]
+    try:
+        known_faces = face_recognition.face_encodings(face_image=known_image, num_jitters=50, model='large')[0]
+    except Exception as e:
+        raise HTTPException(status_code=404, detail="Officer not found!")
 
     return FaceID(face_signature=known_faces)
 
