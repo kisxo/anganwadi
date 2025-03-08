@@ -2,7 +2,7 @@ import enum
 from symtable import Class
 
 from pydantic import BaseModel, Field
-from pydantic.types import datetime
+from pydantic.types import datetime, Json
 from typing import Optional
 
 class StaffRole(enum.Enum):
