@@ -11,6 +11,7 @@ import datetime
 from app.services.face_id import generate_face_id
 from app.db.schemas.face_id import FaceID
 import base64
+from app.services.image import save_image
 
 router = APIRouter()
 
@@ -32,12 +33,8 @@ async def create_student(
         raise HTTPException(status_code=403, detail="Forbidden !")
 
     try:
-        # Format: center_id + '-' + uuid
-        unique_image_id = f"{input_data.student_center_id}-{uuid4()}"
 
-        with open(f"media/images/students/{unique_image_id}", "bw") as image_file:
-            contents = base64.b64decode(input_data.student_image_file)
-            image_file.write(contents)
+        unique_image_id = save_image(input_data.student_image_file, "students", input_data.student_center_id)
 
         face_id : FaceID = generate_face_id(image_group="students", image_id=unique_image_id)
         face_id_status = False
