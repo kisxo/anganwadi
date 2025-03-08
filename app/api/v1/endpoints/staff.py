@@ -53,7 +53,7 @@ async def get_staff(
 ):
     # TODO implement RBAC
     result = staff_service.get_staff(staff_id=staff_id,session=session)
-    return {'data': result}
+    return result
 
 
 @router.post("/",
