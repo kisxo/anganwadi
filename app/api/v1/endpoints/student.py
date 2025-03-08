@@ -20,7 +20,7 @@ router = APIRouter()
     dependencies=[Depends(authx_security.access_token_required), Depends(auth_scheme)]
 )
 async def create_student(
-    input_data: Annotated[StudentCreate, Form(media_type="multipart/form-data")],
+    input_data: StudentCreate,
     session: SessionDep,
     payload: TokenPayload = Depends(authx_security.access_token_required)
 ):
@@ -33,15 +33,13 @@ async def create_student(
     anganwadi_service.get_anganwadi(input_data.student_center_id, session)
 
     # saves image and returns unique image ID
-    unique_image_id = save_image(input_data.student_image_file, "students", input_data.student_center_id)
 
     # generates a unique face signature from input image
-    face_id: FaceID = generate_face_id(image_group="students", image_id=unique_image_id)
+    face_id: FaceID = generate_face_id(image_group="students", image_id=input_data.student_image)
     try:
 
         validated_student = Student(
             **input_data.model_dump(),
-            student_image=unique_image_id,
             student_face_id=face_id.model_dump_json(),
         )
 

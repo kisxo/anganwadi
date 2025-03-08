@@ -21,9 +21,9 @@ class StudentBase(BaseModel):
     student_phone: str = Field(max_length=10)
     student_aadhar: Optional[str] = Field(min_length=12, max_length=12, default=None)
     student_center_id: int
+    student_image: str
 
 class StudentPublic(StudentBase):
-    student_image: str
     student_face_id: object
     student_center_id: int
     student_created_date: datetime
@@ -32,9 +32,7 @@ class StudentsPublic(BaseModel):
     data: list[StudentPublic]
 
 class Student(StudentBase):
-    student_image: str
     student_face_id: Json
-    student_center_id: int
 
 class StudentCreate(StudentBase):
-    student_image_file: str
+    pass
