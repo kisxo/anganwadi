@@ -21,7 +21,7 @@ tags_metadata = [
             Example JSON request with authentication headers: Let the say the `JWT-Token = eyJhbGciOiJSUzI1.....`
     
         {
-            "url": "https://gym-deolang.com/v1/api/members",
+            "url": "https://magicminute.online/api/v1/students",
             "method": "POST",
             "headers": {
                 "Authorization": "Bearer eyJhbGciOiJSUzI1.....",
