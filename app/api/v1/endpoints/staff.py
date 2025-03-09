@@ -38,6 +38,9 @@ async def list_staffs(
     session: SessionDep,
     payload: TokenPayload = Depends(authx_security.access_token_required)
 ):
+    if payload.user_type == "staff":
+        return  staff_service.list_staffs_by_center(payload.user_center_id, session=session)
+
     result = staff_service.list_staffs(session=session)
     return {'data': result}
 
@@ -57,7 +60,7 @@ async def get_staff(
 
 
 @router.post("/",
-    # response_model=StaffPublic,
+    response_model=StaffPublic,
     dependencies=[Depends(authx_security.access_token_required), Depends(auth_scheme)]
 )
 async def create_staff(
@@ -65,8 +68,6 @@ async def create_staff(
     session: SessionDep,
     payload: TokenPayload = Depends(authx_security.access_token_required)
 ):
-    # if payload.user_type not in ["officer", "admin"]:
-    #     raise HTTPException(status_code=400, detail="Does not have permission to create staff!")
 
     if payload.user_type == "staff" and input_data.staff_role.value == "Worker":
         raise HTTPException(status_code=400, detail="Does not have permission to create staff!")
