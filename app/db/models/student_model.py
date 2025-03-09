@@ -8,12 +8,12 @@ class Student(Base):
     __tablename__ = "students"
 
     student_id: Mapped[int] = mapped_column(primary_key=True)
-    student_full_name: Mapped[str] = mapped_column(String(30))
+    student_full_name: Mapped[str] = mapped_column(String(100))
     student_dob: Mapped[DATE] = mapped_column(DATE)
     student_last_attendance: Mapped[Optional[DATE]] = mapped_column(DATE)
     student_gender: Mapped[SqlEnum] = mapped_column(SqlEnum(StudentGender))
-    student_mother_name: Mapped[str] = mapped_column(String(30))
-    student_father_name: Mapped[str] = mapped_column(String(30))
+    student_mother_name: Mapped[str] = mapped_column(String(100))
+    student_father_name: Mapped[str] = mapped_column(String(100))
     student_phone: Mapped[str] = mapped_column(String(10))
     student_aadhar: Mapped[str] = mapped_column(String(12), unique=True)
     student_image: Mapped[str] = mapped_column(String())

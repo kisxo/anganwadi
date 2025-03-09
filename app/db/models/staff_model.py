@@ -8,7 +8,7 @@ class Staff(Base):
     __tablename__ = "staffs"
 
     staff_id: Mapped[int] = mapped_column(primary_key=True)
-    staff_full_name: Mapped[str] = mapped_column(String(30))
+    staff_full_name: Mapped[str] = mapped_column(String(100))
     staff_phone: Mapped[str] = mapped_column(String(10))
     staff_last_attendance: Mapped[Optional[DATE]] = mapped_column(DATE)
     staff_aadhar: Mapped[str] = mapped_column(String(12))

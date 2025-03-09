@@ -7,7 +7,7 @@ class AnganwadiCenters(Base):
     __tablename__ = "anganwadi_centers"
 
     center_id: Mapped[int] = mapped_column(primary_key=True)
-    center_code: Mapped[str] = mapped_column(String(30), unique=True)
+    center_code: Mapped[str] = mapped_column(String(100), unique=True)
     center_name: Mapped[str] = mapped_column(String(100))
     center_address: Mapped[str] = mapped_column(String(500))
     center_supervisor_id: Mapped[Optional[int]] = mapped_column(ForeignKey("officers.officer_id"))

@@ -6,7 +6,7 @@ class Admin(Base):
     __tablename__ = "admins"
 
     admin_id: Mapped[int] = mapped_column(primary_key=True)
-    admin_full_name: Mapped[str] = mapped_column(String(30))
+    admin_full_name: Mapped[str] = mapped_column(String(100))
     admin_phone: Mapped[str] = mapped_column(String(10))
     admin_email: Mapped[str] = mapped_column(String(250))
     admin_hashed_password: Mapped[str] = mapped_column(String())

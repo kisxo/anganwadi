@@ -1,9 +1,10 @@
 from fastapi import APIRouter
-from app.api.v1.endpoints import auth, student, anganwadi, attendance, staff, image
+from app.api.v1.endpoints import auth, student, anganwadi, attendance, staff, image, officer
 
 router = APIRouter()
 
 router.include_router(auth.router, prefix="/v1/auth", tags=["Authentication"])
+router.include_router(officer.router, prefix="/v1/officers", tags=["Officers"])
 router.include_router(staff.router, prefix="/v1/staffs", tags=["Staffs"])
 router.include_router(student.router, prefix="/v1/students", tags=["Students"])
 router.include_router(anganwadi.router, prefix="/v1/anganwadi", tags=["Anganwadi Centers"])
