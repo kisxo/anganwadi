@@ -1,4 +1,4 @@
-title = "Anganwadi management backend API - DEOLANG"
+title = "Anganwadi management backend API - AsyncMind"
 
 summary = "This is the documentation of Fastapi API developed by Uday Subba."
 
