@@ -57,7 +57,7 @@ async def get_staff(
 
 
 @router.post("/",
-    response_model=StaffPublic,
+    # response_model=StaffPublic,
     dependencies=[Depends(authx_security.access_token_required), Depends(auth_scheme)]
 )
 async def create_staff(
@@ -65,22 +65,24 @@ async def create_staff(
     session: SessionDep,
     payload: TokenPayload = Depends(authx_security.access_token_required)
 ):
-    if payload.user_type not in ["officer", "admin"]:
+    # if payload.user_type not in ["officer", "admin"]:
+    #     raise HTTPException(status_code=400, detail="Does not have permission to create staff!")
+
+    if payload.user_type == "staff" and input_data.staff_role.value == "Worker":
         raise HTTPException(status_code=400, detail="Does not have permission to create staff!")
+
+    if payload.user_type == "staff":
+        input_data.staff_center_id = payload.user_center_id
 
     # check's if anganwadi center exists
     get_anganwadi(input_data.staff_center_id, session)
 
-    # saves image and returns unique image ID
-    unique_image_id = save_image(input_data.staff_image_file, "staffs", input_data.staff_center_id)
-
     # generates a unique face signature from input image
-    face_id: FaceID = generate_face_id(image_group="staffs", image_id=unique_image_id)
+    face_id: FaceID = generate_face_id(image_group="staffs", image_id=input_data.staff_image)
     try:
 
         validated_staff = Staff(
             **input_data.model_dump(),
-            staff_image=unique_image_id,
             staff_hashed_mpin=hash_password(input_data.staff_mpin),
             staff_face_id= face_id.model_dump_json(),
         )

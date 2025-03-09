@@ -18,11 +18,11 @@ class StaffBase(BaseModel):
     staff_aadhar: str = Field(min_length=12, max_length=12)
     staff_role: StaffRole
     staff_center_id: int
+    staff_image: str
 
 class StaffPublic(StaffBase):
     staff_id: int
     staff_created_date: datetime
-    staff_image: str
     staff_face_id: object
 
 class StaffsPublic(BaseModel):
@@ -30,9 +30,7 @@ class StaffsPublic(BaseModel):
 
 class Staff(StaffBase):
     staff_hashed_mpin: str
-    staff_image: str
     staff_face_id: Json
 
 class StaffCreate(StaffBase):
     staff_mpin: str = Field(min_length=5, max_length=5)
-    staff_image_file: str
