@@ -12,7 +12,7 @@ class OfficerRole(enum.Enum):
 class OfficerBase(BaseModel):
     officer_full_name: str = Field(max_length=100)
     officer_phone: str = Field(min_length=10, max_length=10)
-    officer_email: EmailStr
+    officer_email: str = Field(max_length=250)
     officer_aadhar: str = Field(min_length=12, max_length=12)
     officer_role: OfficerRole
 
