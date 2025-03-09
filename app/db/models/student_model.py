@@ -2,6 +2,7 @@ from app.db.database import Base
 from sqlalchemy import String, Enum as SqlEnum, DATE, TIMESTAMP, ForeignKey, func, JSON
 from sqlalchemy.orm import Mapped, mapped_column
 from app.db.schemas.student import StudentGender
+from typing import Optional
 
 class Student(Base):
     __tablename__ = "students"
@@ -9,6 +10,7 @@ class Student(Base):
     student_id: Mapped[int] = mapped_column(primary_key=True)
     student_full_name: Mapped[str] = mapped_column(String(30))
     student_dob: Mapped[DATE] = mapped_column(DATE)
+    student_last_attendance: Mapped[Optional[DATE]] = mapped_column(DATE)
     student_gender: Mapped[SqlEnum] = mapped_column(SqlEnum(StudentGender))
     student_mother_name: Mapped[str] = mapped_column(String(30))
     student_father_name: Mapped[str] = mapped_column(String(30))
