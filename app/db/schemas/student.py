@@ -25,6 +25,7 @@ class StudentBase(BaseModel):
     student_last_attendance: Optional[date] = Field(default=None)
 
 class StudentPublic(StudentBase):
+    student_id: int
     student_face_id: object
     student_center_id: int
     student_created_date: datetime
