@@ -48,7 +48,12 @@ async def create_center(
     dependencies=[Depends(authx_security.access_token_required), Depends(auth_scheme)]
 )
 async def list_centers(
-    session: SessionDep
+    session: SessionDep,
+    payload: TokenPayload = Depends(authx_security.access_token_required)
 ):
-    result = anganwadi_service.list_anganwadi(session=session)
-    return {'data': result}
+    if payload.user_type == "staff":
+        center_data = anganwadi_service.get_anganwadi(payload.user_center_id, session)
+        return center_data
+    elif payload.user_type == "admin":
+        result = anganwadi_service.list_anganwadi(session=session)
+        return {'data': result}

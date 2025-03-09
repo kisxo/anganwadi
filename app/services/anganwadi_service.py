@@ -13,7 +13,7 @@ def get_anganwadi(anganwadi_id: int, session: SessionDep):
     if not anganwadi_in_db:
         raise HTTPException(status_code=404, detail="Anganwadi Center not found!")
 
-    return anganwadi_id
+    return anganwadi_in_db
 
 
 def get_anganwadi_by_code(center_code: str, session: SessionDep):
