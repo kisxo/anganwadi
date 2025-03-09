@@ -18,6 +18,10 @@ async def log_student_attendance(
     image_file: Annotated[UploadFile, File()],
     session: SessionDep
 ):
+    result = student_attendance_service.list_attendance_by_student_id_and_date(student_id=student_id, input_date=date.today(), session=session)
+    if result:
+        raise HTTPException(status_code=400, detail="Attendance already exists!")
+
     student_in_db = student_service.get_student(student_id, session)
     result = verify_face_id(image_file, student_in_db.student_face_id["face_signature"])
 
@@ -28,6 +32,7 @@ async def log_student_attendance(
         new_attendance = student_attendance_model.StudentAttendance(
             attendance_student_id=student_in_db.student_id,
             attendance_center_id=student_in_db.student_center_id,
+            attendance_date=date.today(),
             attendance_mode=AttendanceModeChoice.online
         )
         student_in_db.student_last_attendance = date.today()
@@ -49,6 +54,10 @@ async def log_staff_attendance(
     image_file: Annotated[UploadFile, File()],
     session: SessionDep
 ):
+    result = staff_attendance_service.list_attendance_by_staff_id_and_date(staff_id=staff_id, input_date=date.today(), session=session)
+    if result:
+        raise HTTPException(status_code=400, detail="Attendance already exists!")
+
     staff_in_db = staff_service.get_staff(staff_id, session)
     result = verify_face_id(image_file, staff_in_db.staff_face_id["face_signature"])
 
@@ -59,6 +68,7 @@ async def log_staff_attendance(
         new_attendance = staff_attendance_model.StaffAttendance(
             attendance_staff_id=staff_in_db.staff_id,
             attendance_center_id=staff_in_db.staff_center_id,
+            attendance_date= date.today(),
             attendance_mode=AttendanceModeChoice.online
         )
         staff_in_db.staff_last_attendance = date.today()
