@@ -25,12 +25,13 @@ def generate_face_id(image_group: str, image_id: str) -> FaceID:
 
     return FaceID(face_signature=known_faces)
 
-def verify_student_face_id(image, student: student_model.Student) -> bool:
+
+def verify_face_id(image, face_signature) -> bool:
     input_image = face_recognition.load_image_file(image.file)
     optimized_input_image = cv2.resize(input_image, (0, 0), fx=0.25, fy=0.25)
     input_faces = face_recognition.face_encodings(face_image=optimized_input_image, num_jitters=5, model='cnn')[0]
 
-    known_face_id = numpy.array(student.student_face_id["face_signature"])
+    known_face_id = numpy.array(face_signature)
 
     result = face_recognition.compare_faces([known_face_id], input_faces)
 
