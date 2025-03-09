@@ -1,4 +1,4 @@
-import cv2 as cv
+import cv2
 import face_recognition
 import matplotlib.pyplot as plt
 from app.db.schemas.face_id import FaceID
@@ -14,11 +14,12 @@ def generate_face_id(image_group: str, image_id: str) -> FaceID:
     """
     try:
         known_image = face_recognition.load_image_file(f"media/images/{image_group}/{image_id}")
+        optimized_known_image = cv2.resize(known_image, (0, 0), fx=0.25, fy=0.25)
     except Exception as e:
         raise HTTPException(status_code=404, detail="Image not found !")
 
     try:
-        known_faces = face_recognition.face_encodings(face_image=known_image, num_jitters=50, model='large')[0]
+        known_faces = face_recognition.face_encodings(face_image=optimized_known_image, num_jitters=5, model='cnn')[0]
     except Exception as e:
         raise HTTPException(status_code=404, detail="Face not detected!")
 
@@ -26,7 +27,8 @@ def generate_face_id(image_group: str, image_id: str) -> FaceID:
 
 def verify_student_face_id(image, student: student_model.Student) -> bool:
     input_image = face_recognition.load_image_file(image.file)
-    input_faces = face_recognition.face_encodings(face_image=input_image, num_jitters=50, model='large')[0]
+    optimized_input_image = cv2.resize(known_image, (0, 0), fx=0.25, fy=0.25)
+    input_faces = face_recognition.face_encodings(face_image=optimized_input_image, num_jitters=5, model='cnn')[0]
 
     known_face_id = numpy.array(student.student_face_id["face_signature"])
 
