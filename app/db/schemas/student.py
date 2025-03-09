@@ -22,6 +22,7 @@ class StudentBase(BaseModel):
     student_aadhar: str = Field(min_length=12, max_length=12)
     student_center_id: int
     student_image: str
+    student_last_attendance: Optional[date] = Field(default=None)
 
 class StudentPublic(StudentBase):
     student_face_id: object
