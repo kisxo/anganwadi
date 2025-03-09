@@ -37,7 +37,8 @@ async def staff_login(
     token_data = {
         'user_type': 'staff',
         'user_id' : staff_in_db.staff_id,
-        'user_role' : staff_in_db.staff_role.value
+        'user_role' : staff_in_db.staff_role.value,
+        'user_center_id': staff_in_db.staff_center_id
     }
 
     token = authx_security.create_access_token(uid=str(staff_in_db.staff_id), data=token_data)
