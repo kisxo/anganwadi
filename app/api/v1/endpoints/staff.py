@@ -64,7 +64,7 @@ async def get_staff(
     dependencies=[Depends(authx_security.access_token_required), Depends(auth_scheme)]
 )
 async def create_staff(
-    input_data: Annotated[StaffCreate, Form(media_type="multipart/form-data")],
+    input_data: StaffCreate,
     session: SessionDep,
     payload: TokenPayload = Depends(authx_security.access_token_required)
 ):
