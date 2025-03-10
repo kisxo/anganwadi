@@ -1,26 +1,21 @@
 from pydantic import BaseModel
-from pydantic.types import datetime
+from pydantic.types import datetime, Json
 
 class RationItem(BaseModel):
     item: str
     quantity: str
 
-class RationData(BaseModel):
-    note: str
-    data: list[RationItem]
+class RationBase(BaseModel):
+    ration_note: str
+    ration_items: list[RationItem]
 
-class RationCreate(RationData):
+class RationCreate(RationBase):
     pass
 
-class Ration(BaseModel):
-    ration_center_id: int
-    ration_data: RationData
-
-class RationPublic(BaseModel):
+class RationPublic(RationBase):
     ration_id: int
     ration_center_id: int
     ration_created_date: datetime
-    ration_data: RationData
 
 class RationsPublic(BaseModel):
     data: list[RationPublic]

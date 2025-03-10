@@ -19,22 +19,16 @@ async def record_ration(
     session: SessionDep,
     payload: TokenPayload = Depends(authx_security.access_token_required)
 ):
-
+    # return input_data
     if payload.user_role != "Worker":
         raise HTTPException(status_code=400, detail="Only Workers can enter ration details!")
 
     try:
 
-        validated_ration =  ration.Ration(
-            ration_center_id = payload.user_center_id,
-            ration_data= input_data
-        )
-
-
         new_ration = ration_model.Rations(
-            **validated_ration.model_dump()
+            **input_data.model_dump(),
+            ration_center_id=payload.user_center_id,
         )
-
 
         session.add(new_ration)
         session.commit()
