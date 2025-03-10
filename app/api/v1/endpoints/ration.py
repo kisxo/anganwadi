@@ -13,7 +13,7 @@ router = APIRouter()
     response_model= ration.RationPublic,
     dependencies=[Depends(authx_security.access_token_required), Depends(auth_scheme)],
 )
-async def get_self(
+async def record_ration(
     input_data: ration.RationCreate,
     session: SessionDep,
     payload: TokenPayload = Depends(authx_security.access_token_required)
