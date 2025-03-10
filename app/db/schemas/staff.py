@@ -19,7 +19,7 @@ class StaffBase(BaseModel):
     staff_role: StaffRole
     staff_center_id: int
     staff_image: str
-    # staff_last_attendance: Optional[date] = Field(default=None)
+    staff_last_attendance: Optional[date] = Field(default=None)
 
 class StaffPublic(StaffBase):
     staff_id: int
