@@ -63,9 +63,12 @@ async def list_students(
     session: SessionDep,
     payload: TokenPayload = Depends(authx_security.access_token_required)
 ):
+    if payload.user_type == "staff":
+        result = student_service.list_students_by_center(center_id=payload.user_center_id, session=session)
+        return {'data': result}
+
     result = student_service.list_students(session=session)
     return {'data': result}
-
 
 
 @router.get("/{student_id}",
