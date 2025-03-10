@@ -27,9 +27,16 @@ def generate_face_id(image_group: str, image_id: str) -> FaceID:
 
 
 def verify_face_id(image, face_signature) -> bool:
-    input_image = face_recognition.load_image_file(image.file)
-    optimized_input_image = cv2.resize(input_image, (0, 0), fx=0.25, fy=0.25)
-    input_faces = face_recognition.face_encodings(face_image=optimized_input_image, num_jitters=5, model='cnn')[0]
+    try:
+        input_image = face_recognition.load_image_file(image.file)
+        optimized_input_image = cv2.resize(input_image, (0, 0), fx=0.25, fy=0.25)
+    except Exception as e:
+        raise HTTPException(status_code=404, detail="Invalid image !")
+
+    try:
+        input_faces = face_recognition.face_encodings(face_image=optimized_input_image, num_jitters=5, model='cnn')[0]
+    except Exception as e:
+        raise HTTPException(status_code=404, detail="Face not detected!")
 
     known_face_id = numpy.array(face_signature)
 
