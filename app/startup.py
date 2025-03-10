@@ -5,12 +5,13 @@ import os
 from app.db.models import (
     admin_model,
     anganwadi_model,
+    beneficiary_model,
     officer_model,
     ration_model,
     staff_attendance_model,
     staff_model,
     student_attendance_model,
-    student_model
+    student_model,
 )
 logger = logging.getLogger('uvicorn.error')
 
