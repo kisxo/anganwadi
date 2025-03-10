@@ -39,7 +39,8 @@ async def list_staffs(
     payload: TokenPayload = Depends(authx_security.access_token_required)
 ):
     if payload.user_type == "staff":
-        return  staff_service.list_staffs_by_center(payload.user_center_id, session=session)
+        result = staff_service.list_staffs_by_center(payload.user_center_id, session=session)
+        return {'data': result}
 
     result = staff_service.list_staffs(session=session)
     return {'data': result}
