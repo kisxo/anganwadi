@@ -13,7 +13,8 @@ def list_attendance(session: SessionDep):
             attendance_id, 
             attendance_date, 
             student_id, 
-            student_full_name 
+            student_full_name,
+            attendance_center_id 
         FROM 
             student_attendance 
         JOIN 
