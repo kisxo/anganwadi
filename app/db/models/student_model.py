@@ -18,5 +18,5 @@ class Student(Base):
     student_aadhar: Mapped[str] = mapped_column(String(12), unique=True)
     student_image: Mapped[str] = mapped_column(String())
     student_face_id: Mapped[[JSON]] = mapped_column(JSON())
-    student_center_id: Mapped[int] = mapped_column(ForeignKey("anganwadi_centers.center_id"))
+    student_center_id: Mapped[int] = mapped_column(ForeignKey("anganwadi_centers.center_id"), ondelete="CASCADE")
     student_created_date: Mapped[TIMESTAMP] = mapped_column(TIMESTAMP(timezone=True), server_default=func.now())
