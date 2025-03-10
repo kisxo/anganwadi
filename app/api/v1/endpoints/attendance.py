@@ -26,7 +26,7 @@ async def log_student_attendance(
     result = verify_face_id(image_file, student_in_db.student_face_id["face_signature"])
 
     if not result:
-        return "Face does not match!"
+        raise HTTPException(status_code=400, detail="Face does not match!")
 
     try:
         new_attendance = student_attendance_model.StudentAttendance(
@@ -62,7 +62,7 @@ async def log_staff_attendance(
     result = verify_face_id(image_file, staff_in_db.staff_face_id["face_signature"])
 
     if not result:
-        return "Face does not match!"
+        raise HTTPException(status_code=400, detail="Face does not match!")
 
     try:
         new_attendance = staff_attendance_model.StaffAttendance(
