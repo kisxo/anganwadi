@@ -6,6 +6,7 @@ from app.db.schemas.officer import OfficerCreate, Officer, OfficerPublic
 from app.db.models import staff_model
 from app.core.security import hash_password
 from app.db.models import officer_model
+from app.services import officer_service
 
 
 router = APIRouter()
@@ -41,3 +42,18 @@ async def create_officer(
         raise HTTPException(status_code=400, detail="Something went wrong!")
 
     return new_officer
+
+
+@router.get("/self/",
+    response_model=OfficerPublic,
+    dependencies=[Depends(authx_security.access_token_required), Depends(auth_scheme)]
+)
+async def create_officer(
+    session: SessionDep,
+    payload: TokenPayload = Depends(authx_security.access_token_required)
+):
+    if payload.user_type != "officer":
+        raise HTTPException(status_code=400, detail="Not a Officer!")
+
+    result = officer_service.get_officer(officer_id=payload.user_id,session=session)
+    return result
