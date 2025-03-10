@@ -7,6 +7,8 @@ from app.core.security import authx_security, auth_scheme
 from app.db.models import staff_attendance_model, student_attendance_model
 from app.db.schemas.attendance import AttendanceModeChoice
 from datetime import date
+from authx import TokenPayload
+
 
 router = APIRouter()
 
@@ -87,16 +89,28 @@ async def log_staff_attendance(
     dependencies=[Depends(authx_security.access_token_required), Depends(auth_scheme)]
 )
 async def get_staff_attendance_list(
-    session: SessionDep
+    session: SessionDep,
+    payload: TokenPayload = Depends(authx_security.access_token_required)
 ):
+    if payload.user_type == "staff":
+        result = staff_attendance_service.list_attendance_by_center(center_id=payload.user_center_id, session=session)
+        return {"data": result}
+
     result = staff_attendance_service.list_attendance(session=session)
     return {'data': result}
+
+
 
 @router.get("/students/",
     dependencies=[Depends(authx_security.access_token_required), Depends(auth_scheme)]
 )
 async def get_student_attendance_list(
-    session: SessionDep
+    session: SessionDep,
+    payload: TokenPayload = Depends(authx_security.access_token_required)
 ):
-    result = student_attendance_service.list_attendance(session=session)
+    if payload.user_type == "staff":
+        result = student_attendance_service.list_attendance_by_center(center_id=payload.user_center_id, session=session)
+        return {"data": result}
+
+    result = staff_attendance_service.list_attendance(session=session)
     return {'data': result}
