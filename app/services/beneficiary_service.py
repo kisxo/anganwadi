@@ -12,7 +12,7 @@ def list_beneficiaries_by_center(center_id: int, session: SessionDep):
         for row in result:
             beneficiaries.append(row.Beneficiaries.__dict__)
 
-        return Beneficiaries
+        return beneficiaries
     except Exception as e:
         print(e)
 
