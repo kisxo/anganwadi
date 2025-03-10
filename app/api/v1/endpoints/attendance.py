@@ -112,5 +112,5 @@ async def get_student_attendance_list(
         result = student_attendance_service.list_attendance_by_center(center_id=payload.user_center_id, session=session)
         return {"data": result}
 
-    result = staff_attendance_service.list_attendance(session=session)
+    result = student_attendance_service.list_attendance(session=session)
     return {'data': result}
