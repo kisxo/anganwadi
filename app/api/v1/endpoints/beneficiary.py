@@ -5,6 +5,7 @@ from app.db.schemas import beneficiary
 from app.db.session import SessionDep
 from authx import TokenPayload
 from app.db.models import beneficiary_model
+from app.services import beneficiary_service
 
 
 router = APIRouter()
@@ -36,4 +37,17 @@ async def create_beneficiary(
         print(e)
         raise HTTPException(status_code=400, detail="Failed adding beneficiary!")
 
-    return new_beneficiary
+@router.get("/",
+    # response_model=student.StudentsPublic,
+    dependencies=[Depends(authx_security.access_token_required), Depends(auth_scheme)]
+)
+async def list_beneficiaries(
+    session: SessionDep,
+    payload: TokenPayload = Depends(authx_security.access_token_required)
+):
+    if payload.user_type == "staff":
+        result = beneficiary_service.list_beneficiaries_by_center(center_id=payload.user_center_id, session=session)
+        return {'data': result}
+
+    result = beneficiary_service.list_beneficiaries(session=session)
+    return {'data': result}
