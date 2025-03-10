@@ -1,5 +1,10 @@
+from csv import excel
+
 from fastapi import APIRouter, HTTPException, Response, Depends, Form
 from typing import Annotated
+
+from sqlalchemy import except_
+
 from app.db.session import SessionDep
 from app.core.security import authx_security, auth_scheme
 from authx import TokenPayload
@@ -99,3 +104,26 @@ async def create_staff(
         raise HTTPException(status_code=400, detail="Something went wrong!")
 
     return new_staff
+
+
+@router.patch("/",
+    response_model=StaffPublic,
+    dependencies=[Depends(authx_security.access_token_required), Depends(auth_scheme)]
+)
+async def update_staff_phone(
+    input_phone: int,
+    session: SessionDep,
+    payload: TokenPayload = Depends(authx_security.access_token_required)
+):
+    if payload.user_type != "staff":
+        raise HTTPException(status_code=400, detail="Something went wrong!")
+
+    try:
+        staff_in_db = session.get(staff_model.Staff, payload.user_id)
+
+        staff_in_db.staff_phone = input_phone
+        session.commit()
+        session.refresh(staff_in_db)
+        return staff_in_db
+    except Exception as e:
+        raise HTTPException(status_code=400, detail="Phone number already exists!")
