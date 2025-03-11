@@ -6,6 +6,7 @@ from app.db.models import (
     admin_model,
     anganwadi_model,
     beneficiary_model,
+    daily_tracking_model,
     officer_model,
     ration_model,
     staff_attendance_model,
