@@ -54,6 +54,6 @@ async def list_centers(
     if payload.user_type == "staff":
         center_data = anganwadi_service.get_anganwadi(payload.user_center_id, session)
         return center_data
-    elif payload.user_type == "admin":
-        result = anganwadi_service.list_anganwadi(session=session)
-        return {'data': result}
+
+    result = anganwadi_service.list_anganwadi(session=session)
+    return {'data': result}
